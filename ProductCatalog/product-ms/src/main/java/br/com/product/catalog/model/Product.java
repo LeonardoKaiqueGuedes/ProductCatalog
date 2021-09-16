@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,7 +14,8 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 @Entity
-public class Products {
+@Table(name = "Products")
+public class Product {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -21,10 +23,9 @@ public class Products {
 	private String description;
 	private double price;
 	
-	public Products() {
-	}
+	public Product(){}
 	
-	public Products(String name, String description, double price) {
+	public Product(String name, String description, double price) {
 		this.name = name;
 		this.description = description;
 		this.price = price;

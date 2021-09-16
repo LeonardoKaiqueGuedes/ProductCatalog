@@ -14,18 +14,18 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.product.catalog.model.Products;
+import br.com.product.catalog.model.Product;
 
 @Repository
-public class ProductDao {
+public class ProductDao{
 
 	@PersistenceContext
 	private EntityManager em;
 	
-	public List<Products> getProducts(String q, Double min_price, Double max_price) {
+	public List<Product> getProducts(String q, Double min_price, Double max_price) {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-		CriteriaQuery<Products> query = criteriaBuilder.createQuery(Products.class);
-		Root<Products> root = query.from(Products.class);
+		CriteriaQuery<Product> query = criteriaBuilder.createQuery(Product.class);
+		Root<Product> root = query.from(Product.class);
 		
 		Path<String> namePath = root.<String> get("name");
 		Path<String> descriptionPath = root.<String> get("description");
@@ -35,7 +35,7 @@ public class ProductDao {
 		
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		
-		if (q != "" && q != null) {			
+		if (null != q && !"".equals(q)) {			
 				Predicate sameName = criteriaBuilder.like(criteriaBuilder.lower(namePath), "%" + q + "%");
 				Predicate sameDesc = criteriaBuilder.like(criteriaBuilder.lower(descriptionPath), "%" + q + "%");
 				
@@ -54,7 +54,7 @@ public class ProductDao {
 		
 		query.where((Predicate[]) predicates.toArray(new Predicate[0]));
 		
-		TypedQuery<Products> typedQuery = em.createQuery(query);
+		TypedQuery<Product> typedQuery = em.createQuery(query);
 		typedQuery.setHint("org.hibernate.cacheable", "true");
 		
 		return typedQuery.getResultList();

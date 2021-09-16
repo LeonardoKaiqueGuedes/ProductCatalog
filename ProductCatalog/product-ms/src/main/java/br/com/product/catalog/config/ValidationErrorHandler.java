@@ -1,7 +1,4 @@
-package br.com.product.catalog.validation;
-
-import java.util.ArrayList;
-import java.util.List;
+package br.com.product.catalog.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -13,6 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import br.com.product.catalog.form.ErrorForm;
+
 @RestControllerAdvice
 public class ValidationErrorHandler {
 	
@@ -20,18 +19,16 @@ public class ValidationErrorHandler {
 	private MessageSource messageSource;
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public List<FormErrorDto> handle(MethodArgumentNotValidException exception) {
-		List<FormErrorDto> dto = new ArrayList<>();
+	@ExceptionHandler(Exception.class)
+	public ErrorForm handle(MethodArgumentNotValidException exception) {
+		FieldError fe = exception.getBindingResult().getFieldError();
 		
-		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
-		fieldErrors.forEach(e -> {
-			String mensagem = messageSource.getMessage(e, LocaleContextHolder.getLocale());
-		    int statusCode = 400;
-			FormErrorDto erro = new FormErrorDto(e.getField(), statusCode, mensagem);
-			dto.add(erro);
-		});
+		String field = fe.getField();
+		String mensagem = messageSource.getMessage(fe, LocaleContextHolder.getLocale());
+		int statusCode = HttpStatus.BAD_REQUEST.value();
 		
-		return dto;
+		ErrorForm formError = new ErrorForm(field, statusCode, mensagem);
+		
+		return formError;
 	}
 }

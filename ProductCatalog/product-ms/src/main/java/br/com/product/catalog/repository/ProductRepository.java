@@ -1,12 +1,9 @@
 package br.com.product.catalog.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import br.com.product.catalog.model.Products;
+import br.com.product.catalog.model.Product;
 
-public interface ProductRepository extends JpaRepository<Products, Long>{
-
-	List<Products> findByName(String name);
-}
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long>{}
