@@ -6,13 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @Entity
 @Table(name = "Products")
 public class Product {

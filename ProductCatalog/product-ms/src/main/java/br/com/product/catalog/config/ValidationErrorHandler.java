@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import br.com.product.catalog.form.ErrorForm;
+import br.com.product.catalog.form.ProductForm;
 
 @RestControllerAdvice
 public class ValidationErrorHandler {
@@ -20,14 +20,13 @@ public class ValidationErrorHandler {
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(Exception.class)
-	public ErrorForm handle(MethodArgumentNotValidException exception) {
-		FieldError fe = exception.getBindingResult().getFieldError();
-		
-		String field = fe.getField();
-		String mensagem = messageSource.getMessage(fe, LocaleContextHolder.getLocale());
+	public ProductForm handle(MethodArgumentNotValidException exception) {
+		FieldError fe = exception.getBindingResult().getFieldError();		
 		int statusCode = HttpStatus.BAD_REQUEST.value();
+		String mensagem = "O campo " + fe.getField() + " " + messageSource.getMessage(fe, LocaleContextHolder.getLocale());
 		
-		ErrorForm formError = new ErrorForm(field, statusCode, mensagem);
+		ProductForm formError = new ProductForm();
+		formError.error(statusCode, mensagem);
 		
 		return formError;
 	}

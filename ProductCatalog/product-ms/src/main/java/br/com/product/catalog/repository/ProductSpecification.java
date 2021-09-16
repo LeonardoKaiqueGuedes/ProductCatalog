@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 import br.com.product.catalog.model.Product;
 
 @Repository
-public class ProductDao{
+public class ProductSpecification{
 
 	@PersistenceContext
 	private EntityManager em;

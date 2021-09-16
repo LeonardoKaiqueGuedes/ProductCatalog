@@ -17,7 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.product.catalog.form.ProductDetailsForm;
 import br.com.product.catalog.form.ProductForm;
 import br.com.product.catalog.model.Product;
-import br.com.product.catalog.repository.ProductDao;
+import br.com.product.catalog.repository.ProductSpecification;
 import br.com.product.catalog.repository.ProductRepository;
 
 @Service
@@ -27,7 +27,7 @@ public class ProductService {
 	private ProductRepository productRepository;
 	
 	@Autowired
-	private ProductDao productDao;
+	private ProductSpecification productDao;
 	
 	public List<Product> findAll() {
 		return productRepository.findAll();	
