@@ -3,11 +3,7 @@
   "info": {
     "description": "Desafio FastTrack - Catálogo de Produtos com Java e Spring Boot",
     "version": "1.0.0",
-    "title": "Products Catalog",
-    "license": {
-      "name": "Apache License Version 2.0",
-      "url": "https://www.apache.org/licenses/LICENSE-2.0"
-    }
+    "title": "Products Catalog"
   },
   "host": "localhost:9999",
   "basePath": "/",
@@ -262,10 +258,6 @@
       "properties": {
         "description": {
           "type": "string"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64"
         },
         "name": {
           "type": "string"

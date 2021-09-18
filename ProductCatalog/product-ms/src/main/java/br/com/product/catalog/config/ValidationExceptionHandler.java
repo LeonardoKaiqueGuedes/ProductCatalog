@@ -19,35 +19,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @RestControllerAdvice
-public class ValidationErrorHandler {	
-	
-	private int status_code;
-	private String message;
+public class ValidationExceptionHandler {	
 	
 	@Autowired @JsonInclude(Include.NON_DEFAULT)
 	private MessageSource messageSource;
-	
-	public ValidationErrorHandler error(int status_code, String message) {
-		ValidationErrorHandler productError = new ValidationErrorHandler();	
-		this.status_code = status_code;
-		this.message = message;
-		
-		productError.setStatus_code(status_code);
-		productError.setMessage(message);
-		
-		return productError;
-	}
+	private int status_code;
+	private String message;
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(Exception.class)
-	public ValidationErrorHandler handle(MethodArgumentNotValidException exception) {
-		FieldError fe = exception.getBindingResult().getFieldError();		
+	public ValidationExceptionHandler handle(MethodArgumentNotValidException e) {
+			
+		FieldError fe = e.getBindingResult().getFieldError();		
+		String errorMessage = "O campo " + fe.getField() + " " + messageSource.getMessage(fe, LocaleContextHolder.getLocale());
 		int statusCode = HttpStatus.BAD_REQUEST.value();
-		String mensagem = "O campo " + fe.getField() + " " + messageSource.getMessage(fe, LocaleContextHolder.getLocale());
 		
-		ValidationErrorHandler formError = new ValidationErrorHandler();
-		formError.error(statusCode, mensagem);
+		ValidationExceptionHandler exception = new ValidationExceptionHandler();
+		exception.setStatus_code(statusCode);
+		exception.setMessage(errorMessage);
 		
-		return formError;
+		return exception;
 	}
 }

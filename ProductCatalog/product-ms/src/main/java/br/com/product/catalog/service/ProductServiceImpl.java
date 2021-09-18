@@ -16,16 +16,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.product.catalog.model.Product;
 import br.com.product.catalog.repository.ProductRepository;
-import br.com.product.catalog.repository.ProductSpecifications;
 
 @Service
 public class ProductServiceImpl implements ProductService{
 
 	@Autowired
 	private ProductRepository productRepository;
-		
-	@Autowired
-	private ProductSpecifications productSpecifications;
 	
 	@Override
 	public List<Product> findAll(){
@@ -43,11 +39,7 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Override
 	public ResponseEntity<List<Product>> findFiltered(String q, Double min_price, Double max_price){
-		if(null != q && !"".equals(q)) {
-			q = q.toLowerCase();
-		}		
-		List<Product> products = productSpecifications.getProducts(q, min_price, max_price);
-		
+		List<Product> products = productRepository.findFiltered(q, min_price, max_price);		
 		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
 	}
 	

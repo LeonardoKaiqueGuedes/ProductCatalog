@@ -22,7 +22,7 @@ public class SwaggerConfig {
 	
     @Bean
     public Docket api(){
-        return new Docket(DocumentationType.SWAGGER_2)
+    	return new Docket(DocumentationType.SWAGGER_2)
           .select()
           .apis(RequestHandlerSelectors.basePackage("br.com.product.catalog.controller"))
           .build()
@@ -40,13 +40,16 @@ public class SwaggerConfig {
                 .title("Products Catalog")
                 .description("Desafio FastTrack - Catálogo de Produtos com Java e Spring Boot")
                 .version("1.0.0")
-                .license("Apache License Version 2.0")
-                .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
                 .build();
     }
     
     private List<ResponseMessage> responseMessageForGET() {
-        return new ArrayList<ResponseMessage>() {{
+        return new ArrayList<ResponseMessage>() {
+	        /**
+			* 
+			*/
+			private static final long serialVersionUID = 1L;
+		{
             add(new ResponseMessageBuilder()
 	                .code(500)
 	                .message("Internal Server Error")
@@ -55,7 +58,12 @@ public class SwaggerConfig {
     }
     
     private List<ResponseMessage> responseMessageForPOST() {
-        return new ArrayList<ResponseMessage>() {{
+        return new ArrayList<ResponseMessage>() {
+	        /**
+			* 
+			*/
+        	private static final long serialVersionUID = 1L;
+		{
             add(new ResponseMessageBuilder()
 	                .code(201)
 	                .message("Created")
@@ -72,7 +80,12 @@ public class SwaggerConfig {
     }
     
     private List<ResponseMessage> responseMessageForPUT() {
-        return new ArrayList<ResponseMessage>() {{
+        return new ArrayList<ResponseMessage>() {
+        	/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+		{
         	add(new ResponseMessageBuilder()
 	        		.code(400)
 	        		.message("Bad Request")
@@ -89,11 +102,16 @@ public class SwaggerConfig {
     }
         
     private List<ResponseMessage> responseMessageForDELETE() {
-    	return new ArrayList<ResponseMessage>() {{
+    	return new ArrayList<ResponseMessage>() {
+    		/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+		{
             add(new ResponseMessageBuilder()
             		.code(404)
             		.message("Not Found")
             		.build());
-            }};
+        }};
     } 
 }
