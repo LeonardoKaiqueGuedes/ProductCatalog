@@ -1,4 +1,4 @@
-package br.com.product.catalog.config;
+package br.com.product.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -19,25 +19,30 @@ import lombok.Setter;
 @Getter
 @Setter
 @RestControllerAdvice
-public class ValidationExceptionHandler {	
-	
-	@Autowired @JsonInclude(Include.NON_DEFAULT)
+public class ValidationExceptionHandler{
+
+	@Autowired
+	@JsonInclude(Include.NON_DEFAULT)
 	private MessageSource messageSource;
 	private int status_code;
 	private String message;
-	
+
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(Exception.class)
-	public ValidationExceptionHandler handle(MethodArgumentNotValidException e) {
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ValidationExceptionHandler handle(MethodArgumentNotValidException exception){
+		String errorMessage = null;
+		int statusCode = 0;
+		FieldError fe = exception.getBindingResult().getFieldError();
+		
+		if(fe != null) {
+			errorMessage = "O campo " + fe.getField() + " " + messageSource.getMessage(fe, LocaleContextHolder.getLocale());
+			statusCode = HttpStatus.BAD_REQUEST.value();				
+		}
 			
-		FieldError fe = e.getBindingResult().getFieldError();		
-		String errorMessage = "O campo " + fe.getField() + " " + messageSource.getMessage(fe, LocaleContextHolder.getLocale());
-		int statusCode = HttpStatus.BAD_REQUEST.value();
-		
-		ValidationExceptionHandler exception = new ValidationExceptionHandler();
-		exception.setStatus_code(statusCode);
-		exception.setMessage(errorMessage);
-		
-		return exception;
+		ValidationExceptionHandler validationException = new ValidationExceptionHandler();
+		validationException.setStatus_code(statusCode);
+		validationException.setMessage(errorMessage);
+			
+		return validationException;		
 	}
 }

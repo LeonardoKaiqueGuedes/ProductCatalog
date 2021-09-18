@@ -1,4 +1,4 @@
-package br.com.product.catalog.config;
+package br.com.product.config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +18,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig {
+public class SwaggerConfig{
 	
     @Bean
     public Docket api(){
     	return new Docket(DocumentationType.SWAGGER_2)
           .select()
-          .apis(RequestHandlerSelectors.basePackage("br.com.product.catalog.controller"))
+          .apis(RequestHandlerSelectors.basePackage("br.com.product.controller"))
           .build()
           .useDefaultResponseMessages(false)
           .globalResponseMessage(RequestMethod.GET, responseMessageForGET())
@@ -35,16 +35,16 @@ public class SwaggerConfig {
           .apiInfo(productsInfo());
     }
     
-    private ApiInfo productsInfo() {
+    private ApiInfo productsInfo(){
         return new ApiInfoBuilder()
-                .title("Products Catalog")
+                .title("Products Catalog API")
                 .description("Desafio FastTrack - Catálogo de Produtos com Java e Spring Boot")
                 .version("1.0.0")
                 .build();
     }
     
-    private List<ResponseMessage> responseMessageForGET() {
-        return new ArrayList<ResponseMessage>() {
+    private List<ResponseMessage> responseMessageForGET(){
+        return new ArrayList<ResponseMessage>(){
 	        /**
 			* 
 			*/
@@ -57,8 +57,8 @@ public class SwaggerConfig {
         }};
     }
     
-    private List<ResponseMessage> responseMessageForPOST() {
-        return new ArrayList<ResponseMessage>() {
+    private List<ResponseMessage> responseMessageForPOST(){
+        return new ArrayList<ResponseMessage>(){
 	        /**
 			* 
 			*/
@@ -79,8 +79,8 @@ public class SwaggerConfig {
         }};
     }
     
-    private List<ResponseMessage> responseMessageForPUT() {
-        return new ArrayList<ResponseMessage>() {
+    private List<ResponseMessage> responseMessageForPUT(){
+        return new ArrayList<ResponseMessage>(){
         	/**
 			 * 
 			 */
@@ -101,8 +101,8 @@ public class SwaggerConfig {
         }};
     }
         
-    private List<ResponseMessage> responseMessageForDELETE() {
-    	return new ArrayList<ResponseMessage>() {
+    private List<ResponseMessage> responseMessageForDELETE(){
+    	return new ArrayList<ResponseMessage>(){
     		/**
 			 * 
 			 */

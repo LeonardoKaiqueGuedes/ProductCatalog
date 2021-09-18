@@ -1,0 +1,6 @@
+projectKey=product-ms
+serverUrl=http://localhost:9000
+serverVersion=8.9.2.46101
+dashboardUrl=http://localhost:9000/dashboard?id=product-ms
+ceTaskId=AXv6ktxLS0Wf9Hbe1Yxz
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AXv6ktxLS0Wf9Hbe1Yxz

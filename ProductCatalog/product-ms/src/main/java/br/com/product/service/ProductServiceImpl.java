@@ -1,4 +1,4 @@
-package br.com.product.catalog.service;
+package br.com.product.service;
 
 import java.net.URI;
 import java.util.List;
@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.product.catalog.model.Product;
-import br.com.product.catalog.repository.ProductRepository;
+import br.com.product.model.Product;
+import br.com.product.model.ProductForm;
+import br.com.product.repository.ProductRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -44,16 +45,15 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	@Override
-	public ResponseEntity<Product> post(@RequestBody @Valid Product form, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<Product> post(@RequestBody @Valid ProductForm form, UriComponentsBuilder uriBuilder){
 		Product product = form.created();
-		productRepository.save(product);
-		
+		productRepository.save(product);		
 		URI uri = uriBuilder.path("/products/{id}").buildAndExpand(product.getId()).toUri();
 		return ResponseEntity.created(uri).body(new Product(product));
 	}
 	
 	@Override
-	public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody @Valid Product form){
+	public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody @Valid ProductForm form){
 		Optional<Product> optional = productRepository.findById(id);
 		if (optional.isPresent()) {
 			Product product = form.update(id, productRepository);
@@ -63,7 +63,7 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	@Override
-	public ResponseEntity<?> delete(@PathVariable Long id){
+	public ResponseEntity<Product> delete(@PathVariable Long id){
 		Optional<Product> optional = productRepository.findById(id);
 		if (optional.isPresent()) {
 			productRepository.deleteById(id);

@@ -1,4 +1,4 @@
-package br.com.product.catalog.controller;
+package br.com.product.controller;
 
 import java.util.List;
 
@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.product.catalog.model.Product;
-import br.com.product.catalog.service.ProductService;
+import br.com.product.model.Product;
+import br.com.product.model.ProductForm;
+import br.com.product.service.ProductService;
 
 @RestController
 @RequestMapping(value="/products", produces="application/json")
@@ -30,12 +31,12 @@ public class ProductController{
 	 private ProductService productService;
 	
 	 @GetMapping()
-	 public @ResponseBody List<Product> findAll() {		
+	 public @ResponseBody List<Product> findAll(){		
 		 return productService.findAll();
 	 }
 	
 	 @GetMapping("/{id}")
-	 public ResponseEntity<Product> findById(@PathVariable Long id) {
+	 public ResponseEntity<Product> findById(@PathVariable Long id){
 		 return productService.findById(id);
 	 }
 	
@@ -49,19 +50,19 @@ public class ProductController{
 	
 	 @Transactional
 	 @PostMapping()
-	 public ResponseEntity<Product> post(@RequestBody @Valid Product form, UriComponentsBuilder uriBuilder) {
+	 public ResponseEntity<Product> post(@RequestBody @Valid ProductForm form, UriComponentsBuilder uriBuilder){
 		 return productService.post(form, uriBuilder);
 	 }
 		
 	 @Transactional
 	 @PutMapping("/{id}")
-	 public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody @Valid Product form) {
+	 public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody @Valid ProductForm form){
 		 return productService.update(id, form);
 	 }
 	
 	 @Transactional
 	 @DeleteMapping("/{id}")
-	 public ResponseEntity<?> delete(@PathVariable Long id) {
+	 public ResponseEntity<Product> delete(@PathVariable Long id){
 		 return productService.delete(id);
 	 }
 }

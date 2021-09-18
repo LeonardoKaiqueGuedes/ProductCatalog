@@ -3,7 +3,7 @@
   "info": {
     "description": "Desafio FastTrack - Catálogo de Produtos com Java e Spring Boot",
     "version": "1.0.0",
-    "title": "Products Catalog"
+    "title": "Products Catalog API"
   },
   "host": "localhost:9999",
   "basePath": "/",
@@ -59,7 +59,7 @@
             "description": "form",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Product"
+              "$ref": "#/definitions/ProductForm"
             }
           }
         ],
@@ -187,7 +187,7 @@
             "description": "form",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Product"
+              "$ref": "#/definitions/ProductForm"
             }
           },
           {
@@ -241,7 +241,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "object"
+              "$ref": "#/definitions/Product"
             }
           },
           "404": {
@@ -259,6 +259,10 @@
         "description": {
           "type": "string"
         },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
         "name": {
           "type": "string"
         },
@@ -268,6 +272,22 @@
         }
       },
       "title": "Product"
+    },
+    "ProductForm": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "title": "ProductForm"
     }
   }
 }
