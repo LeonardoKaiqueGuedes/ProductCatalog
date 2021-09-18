@@ -11,7 +11,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	
 	@Query(value = "SELECT * FROM Product WHERE (:q IS NULL OR (UPPER(name) LIKE UPPER(CONCAT('%', :q, '%'))" 
 				    	+ "OR UPPER(description) LIKE UPPER(CONCAT('%', :q, '%'))))" 
-							+ "AND (:min_price IS NULL OR price >= :min_price)" 
-								+ "AND (:max_price IS NULL OR price <= :max_price)", nativeQuery = true) 
-	List<Product> findFiltered(String q, Double min_price, Double max_price);
+							+ "AND (:minPrice IS NULL OR price >= :minPrice)" 
+								+ "AND (:maxPrice IS NULL OR price <= :maxPrice)", nativeQuery = true) 
+	List<Product> findFiltered(String q, Double minPrice , Double maxPrice);
 }

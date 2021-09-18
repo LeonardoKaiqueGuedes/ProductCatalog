@@ -20,6 +20,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig{
 	
+	private final String[] statusMessage = {"Created", "Bad Request", "Not Found", "Internal Server Error"};
+	
     @Bean
     public Docket api(){
     	return new Docket(DocumentationType.SWAGGER_2)
@@ -27,11 +29,10 @@ public class SwaggerConfig{
           .apis(RequestHandlerSelectors.basePackage("br.com.product.controller"))
           .build()
           .useDefaultResponseMessages(false)
-          .globalResponseMessage(RequestMethod.GET, responseMessageForGET())
+          .globalResponseMessage(RequestMethod.GET, responseMessageForGETDELETE())
+          .globalResponseMessage(RequestMethod.DELETE, responseMessageForGETDELETE())
           .globalResponseMessage(RequestMethod.POST, responseMessageForPOST())
           .globalResponseMessage(RequestMethod.PUT, responseMessageForPUT())
-          .globalResponseMessage(RequestMethod.DELETE, responseMessageForDELETE())
-          .operationOrdering(null)
           .apiInfo(productsInfo());
     }
     
@@ -43,7 +44,7 @@ public class SwaggerConfig{
                 .build();
     }
     
-    private List<ResponseMessage> responseMessageForGET(){
+    private List<ResponseMessage> responseMessageForGETDELETE(){
         return new ArrayList<ResponseMessage>(){
 	        /**
 			* 
@@ -52,8 +53,12 @@ public class SwaggerConfig{
 		{
             add(new ResponseMessageBuilder()
 	                .code(500)
-	                .message("Internal Server Error")
-	                .build());
+	                .message(statusMessage[3])
+	                .build());            
+            add(new ResponseMessageBuilder()
+            		.code(404)
+            		.message(statusMessage[2])
+            		.build());
         }};
     }
     
@@ -66,15 +71,15 @@ public class SwaggerConfig{
 		{
             add(new ResponseMessageBuilder()
 	                .code(201)
-	                .message("Created")
+	                .message(statusMessage[0])
 	                .build());
             add(new ResponseMessageBuilder()
 	            	.code(400)
-	            	.message("Bad Request")
+	            	.message(statusMessage[1])
 	            	.build());
             add(new ResponseMessageBuilder()
             		.code(500)
-	                .message("Internal Server Error")
+	                .message(statusMessage[3])
 	                .build());
         }};
     }
@@ -88,30 +93,16 @@ public class SwaggerConfig{
 		{
         	add(new ResponseMessageBuilder()
 	        		.code(400)
-	        		.message("Bad Request")
+	        		.message(statusMessage[1])
 	        		.build());
         	add(new ResponseMessageBuilder()
         			.code(404)
-        			.message("Not Found")
+        			.message(statusMessage[2])
         			.build());
             add(new ResponseMessageBuilder()
 	                .code(500)
-	                .message("Internal Server Error")
+	                .message(statusMessage[3])
 	                .build());
         }};
     }
-        
-    private List<ResponseMessage> responseMessageForDELETE(){
-    	return new ArrayList<ResponseMessage>(){
-    		/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-		{
-            add(new ResponseMessageBuilder()
-            		.code(404)
-            		.message("Not Found")
-            		.build());
-        }};
-    } 
 }

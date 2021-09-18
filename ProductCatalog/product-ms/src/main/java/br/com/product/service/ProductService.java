@@ -11,7 +11,7 @@ import br.com.product.model.ProductForm;
 public interface ProductService{	
 	public List<Product> findAll();	
 	public ResponseEntity<Product> findById(Long id);	
-	public ResponseEntity<List<Product>> findFiltered(String q, Double min_price, Double max_price);	
+	public List<Product> findFiltered(String q, Double minPrice, Double maxPrice);	
 	public ResponseEntity<Product> post(ProductForm form, UriComponentsBuilder uriBuilder);
 	public ResponseEntity<Product> update(Long id, ProductForm form);	
 	public ResponseEntity<Product> delete(Long id);

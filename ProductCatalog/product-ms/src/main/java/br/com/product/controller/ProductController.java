@@ -41,11 +41,11 @@ public class ProductController{
 	 }
 	
 	 @GetMapping("/search")
-	 public ResponseEntity<List<Product>> findFiltered(
+	 public List<Product> findFiltered(
 			@RequestParam(required=false) String q,
-			@RequestParam(required=false) Double min_price,
-			@RequestParam(required=false) Double max_price){		
-		 return productService.findFiltered(q, min_price, max_price);
+			@RequestParam(value = "min_price", required=false) Double minPrice,
+			@RequestParam(value = "max_price", required=false) Double maxPrice){		
+		 return productService.findFiltered(q, minPrice, maxPrice);
 	 }
 	
 	 @Transactional

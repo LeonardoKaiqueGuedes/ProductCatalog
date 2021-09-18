@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,17 +30,12 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Override
 	public ResponseEntity<Product> findById(Long id){
-		Optional<Product> product = productRepository.findById(id);
-		if (product.isPresent()) {
-			return ResponseEntity.ok(new Product(product.get()));
-		}		
-		return ResponseEntity.notFound().build();
+		return ResponseEntity.of(productRepository.findById(id));
 	}
 	
 	@Override
-	public ResponseEntity<List<Product>> findFiltered(String q, Double min_price, Double max_price){
-		List<Product> products = productRepository.findFiltered(q, min_price, max_price);		
-		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+	public List<Product> findFiltered(String q, Double minPrice, Double maxPrice){
+		return productRepository.findFiltered(q, minPrice, maxPrice);
 	}
 	
 	@Override
