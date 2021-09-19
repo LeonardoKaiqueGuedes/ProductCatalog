@@ -4,7 +4,7 @@
 
 Base URL: http://localhost:9999/
 
-Documentação: http://localhost:9999/swagger-ui.html
-			  http://localhost:9999/v2/api-docs
+Documentação: http://localhost:9999/swagger-ui
+			  http://localhost:9999/api-docs
 			  
 ------

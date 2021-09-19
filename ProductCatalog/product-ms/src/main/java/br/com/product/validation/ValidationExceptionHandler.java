@@ -1,4 +1,4 @@
-package br.com.product.config;
+package br.com.product.validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -13,16 +13,18 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Hidden
 @RestControllerAdvice
 public class ValidationExceptionHandler{
 
 	@Autowired
-	@JsonInclude(Include.NON_DEFAULT)
+	@JsonInclude(Include.NON_DEFAULT) @Hidden
 	private MessageSource messageSource;
 	private int status_code;
 	private String message;

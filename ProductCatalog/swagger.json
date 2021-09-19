@@ -1,86 +1,211 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.1",
   "info": {
+    "title": "Products Catalog API",
     "description": "Desafio FastTrack - Catálogo de Produtos com Java e Spring Boot",
-    "version": "1.0.0",
-    "title": "Products Catalog API"
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0"
   },
-  "host": "localhost:9999",
-  "basePath": "/",
-  "tags": [
+  "servers": [
     {
-      "name": "product-controller",
-      "description": "Product Controller"
+      "url": "http://localhost:9999",
+      "description": "Generated server url"
     }
   ],
   "paths": {
+    "/products/{id}": {
+      "get": {
+        "tags": [
+          "product-controller"
+        ],
+        "summary": "Busca de um produto por ID",
+        "operationId": "findById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "product-controller"
+        ],
+        "summary": "Atualização de um produto",
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionHandler"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "product-controller"
+        ],
+        "summary": "Deleção de um produto",
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/products": {
       "get": {
         "tags": [
           "product-controller"
         ],
-        "summary": "findAll",
-        "operationId": "findAllUsingGET",
-        "produces": [
-          "application/json"
-        ],
+        "summary": "Lista de produtos",
+        "operationId": "findAll",
         "responses": {
           "200": {
             "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Product"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
               }
             }
           },
           "500": {
             "description": "Internal Server Error"
           }
-        },
-        "deprecated": false
+        }
       },
       "post": {
         "tags": [
           "product-controller"
         ],
-        "summary": "post",
-        "operationId": "postUsingPOST",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "form",
-            "description": "form",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ProductForm"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Product"
+        "summary": "Criação de um produto",
+        "operationId": "post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductForm"
+              }
             }
           },
+          "required": true
+        },
+        "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationExceptionHandler"
+                }
+              }
+            }
           },
           "500": {
             "description": "Internal Server Error"
           }
-        },
-        "deprecated": false
+        }
       }
     },
     "/products/search": {
@@ -88,206 +213,110 @@
         "tags": [
           "product-controller"
         ],
-        "summary": "findFiltered",
-        "operationId": "findFilteredUsingGET",
-        "produces": [
-          "application/json"
-        ],
+        "summary": "Lista de produtos filtrados",
+        "operationId": "findFiltered",
         "parameters": [
           {
-            "name": "max_price",
+            "name": "q",
             "in": "query",
-            "description": "max_price",
             "required": false,
-            "type": "number",
-            "format": "double"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "min_price",
             "in": "query",
-            "description": "min_price",
             "required": false,
-            "type": "number",
-            "format": "double"
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
           },
           {
-            "name": "q",
+            "name": "max_price",
             "in": "query",
-            "description": "q",
             "required": false,
-            "type": "string"
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Product"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
               }
             }
           },
           "500": {
             "description": "Internal Server Error"
           }
-        },
-        "deprecated": false
-      }
-    },
-    "/products/{id}": {
-      "get": {
-        "tags": [
-          "product-controller"
-        ],
-        "summary": "findById",
-        "operationId": "findByIdUsingGET",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "deprecated": false
-      },
-      "put": {
-        "tags": [
-          "product-controller"
-        ],
-        "summary": "update",
-        "operationId": "updateUsingPUT",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "form",
-            "description": "form",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ProductForm"
-            }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "deprecated": false
-      },
-      "delete": {
-        "tags": [
-          "product-controller"
-        ],
-        "summary": "delete",
-        "operationId": "deleteUsingDELETE",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        },
-        "deprecated": false
+        }
       }
     }
   },
-  "definitions": {
-    "Product": {
-      "type": "object",
-      "properties": {
-        "description": {
-          "type": "string"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        },
-        "price": {
-          "type": "number",
-          "format": "double"
+  "components": {
+    "schemas": {
+      "ProductForm": {
+        "required": [
+          "description",
+          "name",
+          "price"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
         }
       },
-      "title": "Product"
-    },
-    "ProductForm": {
-      "type": "object",
-      "properties": {
-        "description": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "price": {
-          "type": "number",
-          "format": "double"
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
         }
       },
-      "title": "ProductForm"
+      "ValidationExceptionHandler": {
+        "type": "object",
+        "properties": {
+          "status_code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }
