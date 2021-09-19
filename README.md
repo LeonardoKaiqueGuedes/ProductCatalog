@@ -6,6 +6,5 @@ Desafio FastTrack - Catálogo de Produtos com Java e Spring Boot
 Base URL: http://localhost:9999/
 
 Documentação: http://localhost:9999/swagger-ui
-			        http://localhost:9999/api-docs
-			  
-------
+			  http://localhost:9999/api-docs
+----
